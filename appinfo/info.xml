@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>yadb</id>
+    <name>Ya Db</name>
+    <summary>Yust another Discusion Board</summary>
+    <description><![CDATA[A one side Discusion Board for Nextcloud]]></description>
+    <licence>agpl</licence>
+    <author mail="diback@cela-mafia.de" homepage="http://berlin-art.wok">Denis Becker</author>
+    <version>0.0.1</version>
+    <namespace>YaDb</namespace>
+    <category>social</category>
+    <bugs>https://github.com/dbk3r/YaDb/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="12" max-version="12"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Ya Db</name>
+            <route>yadb.page.index</route>
+        </navigation>
+    </navigations>
+</info>
