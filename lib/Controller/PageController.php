@@ -6,26 +6,32 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
-class PageController extends Controller {
-	private $userId;
+use OCA\YaDb\Db\Disbo;
+use OCA\YaDb\Db\DisboMapper;
 
-	public function __construct($AppName, IRequest $request, $UserId){
+
+class PageController extends Controller {
+
+
+	public $mapper;
+	public static $userId;
+
+	public function __construct($AppName, IRequest $request, DisboMapper $mapper,  $UserId){
 		parent::__construct($AppName, $request);
+		$this->mapper = $mapper;
 		$this->userId = $UserId;
+
 	}
 
+
 	/**
-	 * CAUTION: the @Stuff turns off security checks; for this page no admin is
-	 *          required and no CSRF check. If you don't know what CSRF is, read
-	 *          it up in the docs or you might create a security hole. This is
-	 *          basically the only required method to add this exemption, don't
-	 *          add it to any other method if you don't exactly know what it does
-	 *
-	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
+
 	public function index() {
-		return new TemplateResponse('yadb', 'index');  // templates/index.php
+		return new TemplateResponse('yadisbo', 'index');  // templates/index.php
 	}
 
 }
+?>

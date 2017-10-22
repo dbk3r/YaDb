@@ -1,18 +1,14 @@
 <?php
-script('yadb', 'script');
-style('yadb', 'style');
+script('yadisbo', 'script');
+style('yadisbo', 'style');
 ?>
 
 <div id="app">
-	<div id="app-navigation">
-		<?php print_unescaped($this->inc('navigation/index')); ?>
-		<?php print_unescaped($this->inc('settings/index')); ?>
-	</div>
-
 	<div id="app-content">
 		<div id="app-content-wrapper">
-			<?php print_unescaped($this->inc('content/index')); ?>
+			<div class="db-content">
+				<?php print_unescaped($this->inc('content/index')); ?>
+			</div>
 		</div>
 	</div>
 </div>
-
