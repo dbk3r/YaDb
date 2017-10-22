@@ -6,9 +6,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
-use OCA\YaDb\Db\Disbo;
-use OCA\YaDb\Db\DisboMapper;
-
 
 class PageController extends Controller {
 
@@ -16,7 +13,7 @@ class PageController extends Controller {
 	public $mapper;
 	public static $userId;
 
-	public function __construct($AppName, IRequest $request, DisboMapper $mapper,  $UserId){
+	public function __construct($AppName, IRequest $request,  $UserId){
 		parent::__construct($AppName, $request);
 		$this->mapper = $mapper;
 		$this->userId = $UserId;

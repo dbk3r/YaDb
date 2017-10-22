@@ -8,25 +8,31 @@
   use OCP\AppFramework\Http\DataResponse;
   use OCP\AppFramework\Controller;
 
-  use OCA\YaDb\Db\Disbo;
-  use OCA\YaDb\Db\DisboMapper;
+  use OCP\IDbConnection;
 
  class DisboDBController extends Controller {
 
-    private $mapper;
-    private $userId;
 
-     public function __construct($AppName, IRequest $request, DisboMapper $mapper, $UserId ){
+    private $userId;
+    private $db;
+
+     public function __construct($AppName, IRequest $request, IDbConnection $db, $UserId ){
          parent::__construct($AppName, $request);
-         $this->mapper = $mapper;
+
          $this->userId = $UserId;
+         $this->db = $db;
 
      }
 
-     function mytime() {
-       date_default_timezone_set("Europe/Berlin");
-       $datetime = date('Y-m-d H:i:s');
-       return $datetime;
+     function get_categories() {
+       $sql = 'SELECT * FROM *PREFIX*ncdisbocat order by category asc';
+       $stmt = $this->db->prepare($sql);
+       $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+       $stmt->execute();
+       $categories = $stmt->fetchall();
+       $stmt->closeCursor();
+       return $categories;
+
      }
 
      /**
@@ -34,9 +40,26 @@
       * @NoAdminRequired
       */
 
-     public function index() {
-         return new DataResponse($this->mapper->findAll($this->userId));
-     }
+      function mytime() {
+        date_default_timezone_set("Europe/Berlin");
+        $datetime = date('Y-m-d H:i:s');
+        return $datetime;
+      }
+
+      function create_categories_dropdown() {
+        $data = $this->get_categories();
+        $ret = "<select name='Category'>";
+
+        foreach($data as $category) {
+          $ret = $ret . "<option>" . $category['category'] . "</option>";
+        }
+        $ret = $ret . "</select>";
+        return $ret;
+      }
+
+       public function show($id) {
+          return $this->create_categories_dropdown();
+       }
 
      /**
       * @NoCSRFRequired
@@ -44,7 +67,7 @@
       *
       * @param int $id
       */
-     public function show($id) {
+     public function show_topic($id) {
        try {
             return new DataResponse($this->mapper->find($id, $this->userId));
         } catch(Exception $e) {
