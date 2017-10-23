@@ -24,10 +24,24 @@
   </div>
 
   <div class="db-content">
+    <table class="db-content-table">
+                <tr class="db-topics-header">
+                    <td class="db-topics-header-td"> <?php  p($l->t('Topic')); ?> </td>
+                    <td class="db-topics-header-td" style="width:250px"> <?php  p($l->t('Category')); ?> </td>
+                    <td class="db-topics-header-td" style="width:250px"> <?php  p($l->t('Author')); ?> </td>
+                    <td class="db-topics-header-td" style="width:100px; text-align: center"> <?php  p($l->t('Replies')); ?> </td>
+                    <td class="db-topics-header-td" style="width:100px; text-align: center" ><?php  p($l->t('Views')); ?> </td>
+                    <td class="db-topics-header-td" style="width:150px; text-align: center"> <?php  p($l->t('Activity')); ?> </td>
+                </tr>
+
+                <tr>
+                  <td colspan="6"><div class="db-topics-content"></div></td>
+                </tr>
+                <tr>
+                  <td class="db-footer" colspan="6">(c) by Denis Becker</td>
+                </tr>
+    </table>
 
   </div>
 
-  <div class="db-footer">
-    Das ist der Footer
-  </div>
 </div>

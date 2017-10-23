@@ -4,7 +4,7 @@ $(document).ready(function () {
 
   var baseUrl = OC.generateUrl('/apps/yadisbo/disboDB/2');
   $.get(baseUrl).done(function(content){
-    $(".db-content").append(content);
+    $(".db-topics-content").after(content);
   });
 
 
