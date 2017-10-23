@@ -38,7 +38,7 @@
                   <td colspan="6"><div class="db-topics-content"></div></td>
                 </tr>
                 <tr>
-                  <td class="db-footer" colspan="6">(c) by Denis Becker</td>
+                  <td class="db-footer" colspan="6">powered by Denis Becker 2017</td>
                 </tr>
     </table>
 
