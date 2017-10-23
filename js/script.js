@@ -2,13 +2,18 @@
 $(document).ready(function () {
 
 
-  var baseUrl = OC.generateUrl('/apps/yadisbo/disboDB/2');
+  var baseUrl = OC.generateUrl('/apps/yadisbo/showall/2');
   $.get(baseUrl).done(function(content){
     $(".db-topics-content").after(content);
   });
 
 
     $(".btn-new-save").click(function() {
+      var newtopic = OC.generateUrl('/apps/yadisbo/newtopic');
+      $.get(newtopic).done(function(content){
+        $(".db-new-topic-content").html(content);
+
+      });
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });

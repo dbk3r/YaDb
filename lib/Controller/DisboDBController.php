@@ -35,8 +35,6 @@
 
      }
 
-
-
      /**
       * @NoCSRFRequired
       * @NoAdminRequired
@@ -74,11 +72,25 @@
         return $row;
       }
 
-       public function show($id) {
+      /**
+       * @NoCSRFRequired
+       * @NoAdminRequired
+      */
+      public function NewTopicTemplate() {
+        return $this->create_categories_dropdown();
+      }
 
-          #return $this->create_categories_dropdown();
+
+      /**
+       * @NoCSRFRequired
+       * @NoAdminRequired
+       *
+       * @param int $id
+       */
+       public function show($id) {
           return $this->create_topics_row("title", "Music", "Denis", "0", "1", "10 Minutes", "uuid-4353453-34535-34534");
        }
+
 
      /**
       * @NoCSRFRequired
@@ -86,7 +98,7 @@
       *
       * @param int $id
       */
-     public function show_topic($id) {
+     public function showTopic($id) {
        try {
             return new DataResponse($this->mapper->find($id, $this->userId));
         } catch(Exception $e) {
