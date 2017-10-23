@@ -44,6 +44,13 @@
                 <notnull>true</notnull>
             </field>
             <field>
+                <name>uuid</name>
+                <type>text</type>
+                <length>255</length>
+                <default></default>
+                <notnull>true</notnull>
+            </field>
+            <field>
                 <name>reply</name>
                 <type>integer</type>
                 <length>1</length>

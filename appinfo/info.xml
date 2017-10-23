@@ -7,7 +7,7 @@
     <description><![CDATA[A one side Discusion Board for Nextcloud]]></description>
     <licence>agpl</licence>
     <author mail="diback@cela-mafia.de" homepage="http://berlin-art.wok">Denis Becker</author>
-    <version>0.0.2</version>
+    <version>0.0.1</version>
     <namespace>YaDb</namespace>
     <category>social</category>
     <bugs>https://github.com/dbk3r/YaDb/issues</bugs>

@@ -92,6 +92,15 @@
        }
 
 
+       function get_topic_content($uuid) {
+         $sql = 'SELECT * FROM *PREFIX*ncdisbo where uuid="'. $uuid .'" order by ts asc';
+         $stmt = $this->db->prepare($sql);
+         $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+         $stmt->execute();
+         $t_content = $stmt->fetchall();
+         $stmt->closeCursor();
+         return $t_content;
+       }
      /**
       * @NoCSRFRequired
       * @NoAdminRequired
@@ -99,11 +108,14 @@
       * @param int $id
       */
      public function showTopic($id) {
-       try {
-            return new DataResponse($this->mapper->find($id, $this->userId));
-        } catch(Exception $e) {
-            return new DataResponse([], Http::STATUS_NOT_FOUND);
-        }
+
+       $data = $this->get_topic_content($id);
+       $response = "<h3>". $data[0]['title'] ."</h3><br>from: ". $data[0]['user_id'] ."<br>". $data[0][ts];
+       foreach($data as $topicdata) {
+         $response = $response . "<option>" . $topicdata['title'] . "</option>";
+       }
+       return $response;
+
      }
      /**
       * @NoCSRFRequired
