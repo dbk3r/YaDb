@@ -1,0 +1,16 @@
+{
+  "uploadOnSave": true,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "dbk3r.spdns.de",
+  "port": "443",
+  "target": "/var/www/html/nextcloud/apps/yadisbo/",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "username": "root",
+  "password": "nulleins",
+  "watch": [],
+  "transport": "scp"
+}
