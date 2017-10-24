@@ -8,11 +8,11 @@ still in progress.
 
 ToDo:
 
-+ Admin Panel
- - Form to manage categories
+- Admin Panel
+ -> Form to manage categories
 
-+ New Topic Form
- - New Topic Backend
+- New Topic Form
+ -> New Topic Backend
 
-+ Reply Topic Form
- - Reply Topic Backend
+- Reply Topic Form
+ -> Reply Topic Backend
