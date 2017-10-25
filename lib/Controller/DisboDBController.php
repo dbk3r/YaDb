@@ -48,6 +48,7 @@
 
       function create_categories_dropdown() {
         $data = $this->get_categories();
+
         $ret = "<select name='Category'>";
 
         foreach($data as $category) {
@@ -76,11 +77,24 @@
        * @NoCSRFRequired
        * @NoAdminRequired
       */
-      public function NewTopicTemplate() {
-        return $this->create_categories_dropdown();
+      public function NewReplyTopic($id) {
+
+        $r= "";
+        if ($id == "new") {
+
+          $r .= "Subject <input type='text' name='db-new-topic-name' class='db-new-topic-input'> ";
+          $r .= "Category ";
+          $r .= $this->create_categories_dropdown($id);
+        } else {
+          $r .=  "Subject: ";
+
+          $r .= "<input type='hidden' name='uuid' value='". $id ."'> ";
+        }
+        $r .= "<br><br>";
+        return $r;
+
       }
-
-
+      
       /**
        * @NoCSRFRequired
        * @NoAdminRequired

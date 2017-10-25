@@ -1,4 +1,5 @@
 <?php
+script('yadisbo', 'tinymce/tinymce.min');
 script('yadisbo', 'script');
 style('yadisbo', 'style');
 ?>

@@ -4,11 +4,19 @@
   font-size: 1.2em;
   color: #CCC;
 	margin: 20px;
-	width: 85%;	
+	width: 85%;
 	height:auto;
 	display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.db-open-topic-indicator {
+	position: fixed;
+	left: 0px;
+	height: 70%;
+	top:
+
 }
 
 .db-new-topic-bg {
@@ -32,6 +40,15 @@
 	text-align:left;
 	overflow: auto;
 }
+
+.db-new-topic-input {
+		width:300px;
+}
+
+
+.db-new-topic-content-header {
+	text-align: left;
+}
 .db-new-topic-header {
 	text-align: right;
 }
@@ -39,11 +56,16 @@
 
 }
 
-.btn-close-new-topic {
+.db-new-topic-footer{
+	text-align: right;
+}
+
+
+.btn {
 	margin:10px;
 	color: #ccc;
 }
-.btn-close-new-topic:hover {
+.btn:hover {
 	color: #444
 }
 

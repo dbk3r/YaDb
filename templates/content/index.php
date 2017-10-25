@@ -1,3 +1,4 @@
+<input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 
 <div class="db-main">
 
@@ -6,20 +7,23 @@
   </div>
 
   <div class="db-navigation">
-      <a class="btn-new-save" style="cursor:pointer"><?php p($l->t('NEW TOPIC')); ?></a>
+      <a class="btn" id="btn-new-topic" style="cursor:pointer"><?php p($l->t('NEW TOPIC')); ?></a>
   </div>
 
   <div class="db-new-topic-bg" style="display:none">
   </div>
   <div class="db-new-topic" style="display:none">
       <div class="db-new-topic-header">
-        <a class="btn-close-new-topic" style="cursor:pointer"><?php p($l->t('CLOSE')); ?></a>
+        <a class="btn" id="btn-close-topic" style="cursor:pointer"><?php p($l->t('CLOSE')); ?></a>
       </div>
 
       <div class="db-new-topic-content">
+        <div class="db-new-topic-content-header"></div>
+        <div class="db-new-topic-content-editor"><textarea id="db-new-topic-editor"></textarea></div>
       </div>
 
       <div class="db-new-topic-footer">
+        <button id="btn_newreply"><?php  p($l->t('apply')); ?></button>
       </div>
   </div>
 

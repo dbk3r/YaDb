@@ -1,24 +1,49 @@
 
 $(document).ready(function () {
 
+  tinymce.init({
+    selector: '#db-new-topic-editor',
+    resize: false,
+    height: 200,
+    menubar: false,
+    statusbar: false,
+    plugins: [
+      'advlist autolink lists link image charmap print preview anchor textcolor',
+      'searchreplace visualblocks code fullscreen',
+      'insertdatetime media table contextmenu paste code'
+    ],
+    toolbar: 'insert | undo redo |  formatselect | bold italic forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+    content_css: [
+      '../../css/style.css'
+    ]
+  });
+
+
   var baseUrl = OC.generateUrl('/apps/yadisbo/showall/2');
   $.get(baseUrl).done(function(content){
     $(".db-topics-content").after(content);
   });
 
 
-    $(".btn-new-save").click(function() {
-      var newtopic = OC.generateUrl('/apps/yadisbo/newtopic');
+
+    $("#btn-new-topic").click(function() {
+      var newtopic = OC.generateUrl('/apps/yadisbo/newreplytopic/new');
       $.get(newtopic).done(function(content){
-        $(".db-new-topic-content").html(content);
+        $(".db-new-topic-content-header").html(content);
       });
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
 
-    $(".btn-close-new-topic, .db-new-topic-bg").click(function() {
+
+
+
+
+    $("#btn-close-topic, .db-new-topic-bg").click(function() {
+      tinymce.activeEditor.setContent("");
       $(".db-new-topic").slideUp();
       $(".db-new-topic-bg").fadeOut();
+
     });
 
 
