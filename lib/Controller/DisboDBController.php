@@ -20,7 +20,6 @@
          parent::__construct($AppName, $request);
          $this->userId = $UserId;
          $this->db = $db;
-
      }
 
      function get_dbRow($id) {
@@ -82,22 +81,13 @@
       function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid) {
         $row = '<table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
-<<<<<<< HEAD
                 <td class="db-topics-row-td">'. $title . '<br><p style="cursor:pointer;font-size: 0.7em">created by:  '. $author .'</p></td>
-=======
-                <td class="db-topics-row-td">'. $title . '<br><p style="font-size: 0.7em">created by:  '. $author .'</p></td>
->>>>>>> 94cd333bd50467c21ace9134fb2b6ca1ff972419
                 <td class="db-topics-row-td" style="width:250px">'. $category .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
-<<<<<<< HEAD
                 </tr><tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
-=======
-                </tr><tr><td colspan="5">
-                <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"></div>
->>>>>>> 94cd333bd50467c21ace9134fb2b6ca1ff972419
                 </td></tr></table>';
         return $row;
       }
@@ -110,29 +100,18 @@
 
         $r= "";
         if ($id == "new") {
-<<<<<<< HEAD
-=======
-
->>>>>>> 94cd333bd50467c21ace9134fb2b6ca1ff972419
           $r .= "Subject <input type='text' name='db-new-topic-name' class='db-new-topic-input'> ";
           $r .= "Category ";
           $r .= $this->create_categories_dropdown($id);
         } else {
           $r .=  "Subject: ";
-<<<<<<< HEAD
           $db_data = $this->get_dbRow($id);
           $r .= $db_data["title"];
           $r .= " Category " . $db_data["category"];
-
         }
         $r .= "<input type='hidden' name='action' value=''>";
         $r .= "<input type='hidden' name='uuid' value='". $uuid ."'> ";
         $r .= "<input type='hidden' name='dbid' value='". $dbid ."'> ";
-=======
-
-          $r .= "<input type='hidden' name='uuid' value='". $id ."'> ";
-        }
->>>>>>> 94cd333bd50467c21ace9134fb2b6ca1ff972419
         $r .= "<br><br>";
         return $r;
 

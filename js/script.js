@@ -34,10 +34,7 @@ $(document).ready(function () {
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
-
-
-
-
+    
 
     $("#btn-close-topic, .db-new-topic-bg").click(function() {
       tinymce.activeEditor.setContent("");
