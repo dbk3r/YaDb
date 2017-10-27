@@ -1,4 +1,15 @@
 
+td:hover {
+	background-color: #fff;
+}
+tr:hover {
+	background-color: #fff;
+}
+table:hover {
+	background-color: #fff;
+}
+
+
 .db-main {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 1.2em;
@@ -105,14 +116,21 @@
 		border-spacing: 2px;
 		width: 100%;
 }
+
 .db-topics-table {
 		border-spacing: 2px;
 		width: 100%;
+}
+.db-topics-table:hover {
+		background-color: #fff;
+		background: #fff;
+		border: 0px solid #fff;
 }
 .db-topics-header {
 	background-color: #ccc;
 	color: #fff;
 }
+
 .db-topics-header:hover {
 	background-color: #ccc;
 	color: #fff;
@@ -123,31 +141,44 @@
 	color: #ccc;
 }
 .db-topics-row:hover {
-	background-color: #fff;
+	background-color: #eee;
 	color: #ccc;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 4px solid #ccc;
+	cursor: pointer;
 }
+
 .db-topics-row-td {
 	padding: 6px;
+}
+.db-topics-row-td:hover {
+	padding: 6px;
+	background-color: #eee;
+	cursor: pointer;
 }
 .db-topics-header-td {
 	padding: 6px;
 }
+.db-topics-header-td:hover {
+	padding: 6px;
+	background-color: #ccc;
+}
 
 .db-topic-content {
 	width: auto;
-	border: 1px solid #ccc;
-	background-color: #eee;
+	margin: 20px;
 	height:auto;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
 }
+.db-topic-content:hover {
+	width: auto;
+	margin: 20px;
+	height:auto;
+
+}
+
 .db-footer {
 	text-align: center;
 	width: auto;
 	margin: 10px;
-}
-.db-footer:hover {
-	text-align: center;
-	width: auto;
-	margin: 10px;
-	background-color: white;
 }

@@ -54,7 +54,13 @@
                 <name>reply</name>
                 <type>integer</type>
                 <length>1</length>
-                <default></default>
+                <default>0</default>
+                <notnull>true</notnull>
+            </field>
+            <field>
+                <name>views</name>
+                <type>integer</type>
+                <default>0</default>
                 <notnull>true</notnull>
             </field>
             <field>
