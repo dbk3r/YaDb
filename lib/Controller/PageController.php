@@ -5,6 +5,8 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use \OCP\AppFramework\Http\ContentSecurityPolicy;
+use \OCP\Util;
 
 
 class PageController extends Controller {
@@ -27,7 +29,32 @@ class PageController extends Controller {
 	 */
 
 	public function index() {
-		return new TemplateResponse('yadisbo', 'index');  // templates/index.php
+
+		$params = array('user' => $this->userId, 'shareMode' => $shareMode);
+		$response = new TemplateResponse('yadisbo', 'index', $params);
+		$ocVersion = \OCP\Util::getVersion();
+		if ($ocVersion[0] > 8 || ($ocVersion[0] == 8 && $ocVersion[1] >= 1)) {
+			$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+			$csp->addAllowedImageDomain('data:');
+			$csp->addAllowedImageDomain('blob:');
+			$csp->addAllowedImageDomain('*');
+			$csp->addAllowedFrameDomain('data:');
+			$csp->addAllowedFrameDomain('blob:');
+
+
+			$allowedFrameDomains = array(
+				'https://www.youtube.com',
+				'http://berlin-art.work'
+			);
+			foreach ($allowedFrameDomains as $domain) {
+				$csp->addAllowedFrameDomain($domain);
+			}
+
+			$csp->addAllowedScriptDomain("'nonce-test'");
+			$response->setContentSecurityPolicy($csp);
+		}
+		return $response;
+
 	}
 
 }

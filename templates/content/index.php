@@ -1,5 +1,3 @@
-<input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
-
 <div class="db-main">
 
   <div class="db-header">

@@ -31,6 +31,8 @@ $(document).ready(function () {
       $.get(newtopic).done(function(content){
         $(".db-new-topic-content-header").html(content);
       });
+      $(".btn_newreplysave").html("add Topic");      
+      $(".btn_newreplysave").attr('action', 'new');
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
@@ -46,13 +48,13 @@ $(document).ready(function () {
 
 /// Topic Inhalt speichern
     $(".btn_newreplysave").click(function(){
-      if ($(this).val() == "save") {
+      if ($(this).attr('action') == "save") {
         alert($("#nrs-id").val());
       }
-      if ($(this).val() == "new") {
+      if ($(this).attr('action') == "new") {
         alert($("#nrs-id").val());
       }
-      if ($(this).val() == "reply") {
+      if ($(this).attr('action') == "reply") {
         alert($("#nrs-id").val());
       }
 
@@ -69,7 +71,8 @@ $(document).ready(function () {
         tinymce.activeEditor.setContent(content);
       });
       $(".btn_newreplysave").html("save");
-      $(".btn_newreplysave").val("save");
+      $(".btn_newreplysave").val($(this).attr('id'));
+      $(".btn_newreplysave").attr('action', 'save');
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
