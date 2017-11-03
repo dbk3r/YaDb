@@ -9,6 +9,12 @@ table:hover {
 	background-color: #fff;
 }
 
+.db-navigation-tr {
+
+}
+.db-navigation-td {
+	margin: 5px;
+}
 
 .db-main {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -56,6 +62,10 @@ table:hover {
 		width:50%;
 }
 
+.db-input {
+	width: 100%;
+	margin: 10px;
+}
 
 .db-new-topic-content-header {
 	text-align: left;
@@ -152,6 +162,7 @@ table:hover {
 .db-topics-row-td {
 	padding: 6px;
 }
+
 .db-topics-row-td:hover {
 	padding: 6px;
 	background-color: #eee;
@@ -160,10 +171,12 @@ table:hover {
 }
 .db-topics-header-td {
 	padding: 6px;
+	font-weight: bold;
+	background-color: #999;
 }
 .db-topics-header-td:hover {
 	padding: 6px;
-	background-color: #ccc;
+	background-color: #999;
 }
 
 .db-topic-content {

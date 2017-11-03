@@ -7,7 +7,12 @@
   </div>
 
   <div class="db-navigation">
-      <a class="btn" id="btn-new-topic" style="cursor:pointer"><?php p($l->t('NEW TOPIC')); ?></a>
+    <table width="100%" class="db-navigation-td">
+      <tr class="db-navigation-tr">
+        <td class="db-navigation-td"><input placeholder="Search" name="db-search" class="db-input"></td>
+        <td class="db-navigation-td" style="text-align:center;" width="200"><a class="btn" id="btn-new-topic" style="cursor:pointer"><?php p($l->t('NEW TOPIC')); ?></a></td>
+      </tr>
+    </table>
   </div>
 
   <div class="db-new-topic-bg" style="display:none">
