@@ -2,18 +2,24 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>yadisbo</id>
-    <name>Yust another Discussion Board</name>
+    <name>Yadisbo</name>
     <summary>Yust another Discussion Board</summary>
     <description><![CDATA[A one side Discusion Board for Nextcloud]]></description>
     <licence>agpl</licence>
     <author mail="diback@cela-mafia.de" homepage="http://berlin-art.wok">Denis Becker</author>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <namespace>YaDb</namespace>
     <category>social</category>
     <bugs>https://github.com/dbk3r/YaDb/issues</bugs>
+    <repository type="git">https://github.com/dbk3r/YaDb.git</repository>
     <dependencies>
         <nextcloud min-version="12" max-version="12"/>
+        <database>mysql</database>
     </dependencies>
+    <settings>
+      <admin>OCA\YaDb\Settings\Admin</admin>
+      <admin-section>OCA\YaDb\Settings\Section</admin-section>
+    </settings>
     <navigations>
         <navigation>
             <name>Discussion Board</name>

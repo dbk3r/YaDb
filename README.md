@@ -11,10 +11,13 @@ ToDo:
 - Admin Panel
  -> Form to manage categories
 
-- dnamic content load
+- dynamic content loading
 
 - New Topic Form
  -> New Topic Backend
 
 - Reply Topic Form
  -> Reply Topic Backend
+
+ - Reply Topic Form
+  -> edit Topic Backend
