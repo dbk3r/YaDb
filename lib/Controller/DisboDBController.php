@@ -104,17 +104,21 @@
           $r .= "Category ";
           $r .= $this->create_categories_dropdown($id);
         } else {
-          $r .=  "Subject: ";
+          $r .=  "<h2>";
           $db_data = $this->get_dbRow($id);
           $r .= $db_data["title"];
-          $r .= " Category " . $db_data["category"];
+          $r .= "  [" . $db_data["category"];
         }
-        $r .= "<input type='hidden' name='action' value=''>";
-        $r .= "<input type='hidden' name='uuid' value='". $uuid ."'> ";
-        $r .= "<input type='hidden' name='dbid' value='". $dbid ."'> ";
-        $r .= "<br><br>";
+        $r .= "]</h2><input type='hidden' name='action' value=''>";
+        $r .= "<input type='hidden' id='nrs-uuid' name='nrs-uuid' value='". $db_data["uuid"] ."'> ";
+        $r .= "<input type='hidden' id='nrs-id' name='nrs-id' value='". $id ."'> ";
+        $r .= "";
         return $r;
+      }
 
+      public function TopicContent($id) {
+        $db_data = $this->get_dbRow($id);
+        return $db_data["content"];
       }
 
       /**
@@ -151,11 +155,16 @@
      public function showTopic($uuid) {
 
        $data = $this->get_topic_content($uuid);
-       $response = "<h3>". $data[0]['title'] ."</h3><br>from: ". $data[0]['user_id'] ."<br>". $data[0]["ts"];
-       foreach($data as $topicdata) {
-         $response .= $topicdata['title'];
+       $t_row = "";
+       foreach($data as $tdata) {
+         $t_row .= "<table width='100%'><tr class='db-topics-content-tr'>
+                    <td class='db-topics-content-td' width='200' style='vertical-align:top'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
+                    <td class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
+                    <td class='db-topics-content-td' width='100' style='vertical-align:top; text-align:right'><a class='btn-edit-topic' id='". $tdata["id"] ."'> edit</a> | <a  class='btn-del-topic' id='". $tdata["id"] ."'>delete</a> </td>
+                    </tr></table>";
        }
-       return $response;
+       return $t_row;
+
 
      }
 

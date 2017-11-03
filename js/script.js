@@ -4,7 +4,7 @@ $(document).ready(function () {
   tinymce.init({
     selector: '#db-new-topic-editor',
     resize: false,
-    height: 200,
+    height: 375,
     menubar: false,
     statusbar: false,
     plugins: [
@@ -34,13 +34,44 @@ $(document).ready(function () {
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
-    
+
 
     $("#btn-close-topic, .db-new-topic-bg").click(function() {
       tinymce.activeEditor.setContent("");
       $(".db-new-topic").slideUp();
       $(".db-new-topic-bg").fadeOut();
 
+    });
+
+
+/// Topic Inhalt speichern
+    $(".btn_newreplysave").click(function(){
+      if ($(this).val() == "save") {
+        alert($("#nrs-id").val());
+      }
+      if ($(this).val() == "new") {
+        alert($("#nrs-id").val());
+      }
+      if ($(this).val() == "reply") {
+        alert($("#nrs-id").val());
+      }
+
+    });
+
+/// Topic Inhalt bearbeiten
+    $(".btn-edit-topic").live('click', function(e) {
+      var topicheader = OC.generateUrl('/apps/yadisbo/newreplytopic/'+$(this).attr('id'));
+      $.get(topicheader).done(function(content){
+        $(".db-new-topic-content-header").html(content);
+      });
+      var edittopic = OC.generateUrl('/apps/yadisbo/topiccontent/'+ $(this).attr('id'));
+      $.get(edittopic).done(function(content){
+        tinymce.activeEditor.setContent(content);
+      });
+      $(".btn_newreplysave").html("save");
+      $(".btn_newreplysave").val("save");
+      $(".db-new-topic-bg").fadeIn();
+      $(".db-new-topic").slideDown();
     });
 
 
