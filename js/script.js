@@ -104,6 +104,7 @@ $(document).ready(function () {
     $(".db-topics-row").live('click', function(e){
       var current_uuid = $(this).attr('id');
       if($("#db-topic-content-" + $(this).attr('id')).css('display') == 'none'){
+        $('[id^="db-topic-content-"]').hide();
         $("#db-topic-content-" + $(this).attr('id')).show();
         var showtopic = OC.generateUrl('/apps/yadisbo/showtopic/'+ $(this).attr('id'));
         $.get(showtopic).done(function(content){

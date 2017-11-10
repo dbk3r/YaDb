@@ -203,6 +203,7 @@ table:hover {
 	height:auto;
 	background-color: #fff;
 	color: #333;
+	text-align: left;
 }
 .db-topics-content-td:hover {
 	width: auto;

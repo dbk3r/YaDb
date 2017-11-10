@@ -172,10 +172,10 @@
        $data = $this->get_topic_content($uuid);
        $t_row = "";
        foreach($data as $tdata) {
-         $t_row .= "<table width='100%'><tr class='db-topics-content-tr'>
-                    <td class='db-topics-content-td' width='200' style='vertical-align:top'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
+         $t_row .= "<table width='100%' border='1'><tr class='db-topics-content-tr'>
+                    <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
-                    <td class='db-topics-content-td' width='100' style='vertical-align:top; text-align:right'><a class='btn-edit-topic' id='". $tdata["id"] ."'> edit</a> | <a  class='btn-del-topic' id='". $tdata["id"] ."'>delete</a> </td>
+                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'><a class='btn-edit-topic' id='". $tdata["id"] ."'> edit</a> | <a  class='btn-del-topic' id='". $tdata["id"] ."'>delete</a> </td>
                     </tr></table>";
        }
        return $t_row;
