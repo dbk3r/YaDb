@@ -27,11 +27,11 @@ $(document).ready(function () {
 
 
     $("#btn-new-topic").click(function() {
-      var newtopic = OC.generateUrl('/apps/yadisbo/newreplytopic/new');
+      var newtopic = OC.generateUrl('/apps/yadisbo/topicformheader/new');
       $.get(newtopic).done(function(content){
         $(".db-new-topic-content-header").html(content);
       });
-      $(".btn_newreplysave").html("add Topic");      
+      $(".btn_newreplysave").html("add Topic");
       $(".btn_newreplysave").attr('action', 'new');
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
@@ -49,11 +49,25 @@ $(document).ready(function () {
 /// Topic Inhalt speichern
     $(".btn_newreplysave").click(function(){
       if ($(this).attr('action') == "save") {
+
         alert($("#nrs-id").val());
       }
+
+
       if ($(this).attr('action') == "new") {
-        alert($("#nrs-id").val());
+        var baseurl = OC.generateUrl('/apps/yadisbo/newtopic');
+        var formdata = {
+                        title: $(".db-new-topic-input").val(),
+                        content: tinymce.activeEditor.getContent(),
+                        category: "categorie",
+                      };
+        $.post(baseurl, formdata).done(function(response) {
+            alert(response);
+        });
+
       }
+
+
       if ($(this).attr('action') == "reply") {
         alert($("#nrs-id").val());
       }
@@ -62,7 +76,7 @@ $(document).ready(function () {
 
 /// Topic Inhalt bearbeiten
     $(".btn-edit-topic").live('click', function(e) {
-      var topicheader = OC.generateUrl('/apps/yadisbo/newreplytopic/'+$(this).attr('id'));
+      var topicheader = OC.generateUrl('/apps/yadisbo/topicformheader/'+$(this).attr('id'));
       $.get(topicheader).done(function(content){
         $(".db-new-topic-content-header").html(content);
       });

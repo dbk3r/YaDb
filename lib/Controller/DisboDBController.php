@@ -7,20 +7,31 @@
   use OCP\AppFramework\Http;
   use OCP\AppFramework\Http\DataResponse;
   use OCP\AppFramework\Controller;
-
   use OCP\IDbConnection;
+
+
 
  class DisboDBController extends Controller {
 
 
-    private $userId;
+    protected $userId;
     private $db;
+
 
      public function __construct($AppName, IRequest $request, IDbConnection $db, $UserId ){
          parent::__construct($AppName, $request);
          $this->userId = $UserId;
          $this->db = $db;
+
      }
+
+     function currentUser() {
+        $this->$uContainer->registerService('User', function($c) {
+            return $c->query('UserSession')->getUser();
+        });
+
+     }
+
 
      function get_dbRow($id) {
        $sql = 'SELECT * FROM *PREFIX*ncdisbo where id="'. $id .'" limit 1';
@@ -66,6 +77,16 @@
         return $datetime;
       }
 
+      function gen_uuid() {
+        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+        mt_rand( 0, 0xffff ),
+        mt_rand( 0, 0x0fff ) | 0x4000,
+        mt_rand( 0, 0x3fff ) | 0x8000,
+        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+    );
+      }
+
       function create_categories_dropdown() {
         $data = $this->get_categories();
 
@@ -96,7 +117,7 @@
        * @NoCSRFRequired
        * @NoAdminRequired
       */
-      public function NewReplyTopic($id) {
+      public function TopicFormHeader($id) {
 
         $r= "";
         if ($id == "new") {
@@ -107,9 +128,9 @@
           $r .=  "<h2>";
           $db_data = $this->get_dbRow($id);
           $r .= $db_data["title"];
-          $r .= "  [" . $db_data["category"];
+          $r .= "  [" . $db_data["category"] . "]";
         }
-        $r .= "]</h2><input type='hidden' name='action' value=''>";
+        $r .= "</h2><input type='hidden' name='action' value=''>";
         $r .= "<input type='hidden' id='nrs-uuid' name='nrs-uuid' value='". $db_data["uuid"] ."'> ";
         $r .= "<input type='hidden' id='nrs-id' name='nrs-id' value='". $id ."'> ";
         $r .= "";
@@ -135,6 +156,9 @@
           }
           return $ret;
        }
+
+
+
 
 
        function get_topic_content($uuid) {
@@ -176,10 +200,21 @@
       * @param string $content
       * @param string $category
       */
-     public function create($title, $content, $category) {
-          $uuid = gen_uuid();
-          $dt = mytime();
+     public function createTopic($title, $content, $category) {
+          $uuid = $this->gen_uuid();
+          $dt = $this->mytime();
+          #print ("titel " . $title . "  uuid " . $uuid);
+          return $this->add_topic($uuid,$title,$category,$content,$this->userId);
+          #return $uuid . " - " . $title . " - " .  $content ." " . $category  . " " . $this->userId;
 
+     }
+
+     function add_topic($uuid,$title,$category,$content,$user) {
+       $sql = "INSERT INTO oc_ncdisbo (uuid,title,reply,user_id,content,category) VALUES ('". $uuid ."', '". $title ."',0,'". $user ."','". $content ."','". $category ."')";
+       $stmt = $this->db->prepare($sql);
+       $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+       $stmt->execute();
+       return $uuid;
      }
 
      /**
