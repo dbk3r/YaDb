@@ -1,4 +1,11 @@
 
+function getTopics(s) {
+  var baseUrl = OC.generateUrl('/apps/yadisbo/showall/'+s);
+  $.get(baseUrl).done(function(content){
+    $(".db-topic-div").after(content).fadeIn();
+  });
+}
+
 $(document).ready(function () {
 
   tinymce.init({
@@ -19,12 +26,7 @@ $(document).ready(function () {
   });
 
 
-  var baseUrl = OC.generateUrl('/apps/yadisbo/showall/2');
-  $.get(baseUrl).done(function(content){
-    $(".db-topics-content").after(content);
-  });
-
-
+  getTopics("2");
 
     $("#btn-new-topic").click(function() {
       var newtopic = OC.generateUrl('/apps/yadisbo/topicformheader/new');
@@ -59,10 +61,16 @@ $(document).ready(function () {
         var formdata = {
                         title: $(".db-new-topic-input").val(),
                         content: tinymce.activeEditor.getContent(),
-                        category: "categorie",
+                        category: $("#dbCat").val(),
                       };
         $.post(baseurl, formdata).done(function(response) {
+            tinymce.activeEditor.setContent("");
+            $(".db-new-topic").slideUp();
+            $(".db-new-topic-bg").fadeOut();
             alert(response);
+            $(".db-topic-div").not(':first').remove();
+            getTopics("2");
+
         });
 
       }

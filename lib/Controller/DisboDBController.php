@@ -25,13 +25,6 @@
 
      }
 
-     function currentUser() {
-        $this->$uContainer->registerService('User', function($c) {
-            return $c->query('UserSession')->getUser();
-        });
-
-     }
-
 
      function get_dbRow($id) {
        $sql = 'SELECT * FROM *PREFIX*ncdisbo where id="'. $id .'" limit 1';
@@ -45,7 +38,7 @@
 
 
      function get_dbRows($id) {
-       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply="0" order by ts';
+       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply="0" order by ts desc limit 10';
        $stmt = $this->db->prepare($sql);
        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
        $stmt->execute();
@@ -89,27 +82,25 @@
 
       function create_categories_dropdown() {
         $data = $this->get_categories();
-
-        $ret = "<select name='Category'>";
-
+        $ret = "<select id='dbCat' name='Category'>";
         foreach($data as $category) {
-          $ret = $ret . "<option>" . $category['category'] . "</option>";
+          $ret = $ret . "<option vlaue='". $category ."'>" . $category['category'] . "</option>";
         }
         $ret = $ret . "</select>";
         return $ret;
       }
 
-      function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid) {
-        $row = '<table class="db-topics-table">
+      function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts) {
+        $row = '<div class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
-                <td class="db-topics-row-td">'. $title . '<br><p style="cursor:pointer;font-size: 0.7em">created by:  '. $author .'</p></td>
+                <td class="db-topics-row-td">'. $title . '<br><p style="cursor:pointer;font-size: 0.7em">'. $author .'<br>'. $ts .'</p></td>
                 <td class="db-topics-row-td" style="width:250px">'. $category .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
                 </tr><tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
-                </td></tr></table>';
+                </td></tr></table></div>';
         return $row;
       }
 
@@ -152,7 +143,7 @@
           $data = $this->get_dbRows($id);
           $ret = "";
           foreach($data as $row) {
-            $ret .= $this->create_topics_row($row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"]);
+            $ret .= $this->create_topics_row($row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"], $row["ts"]);
           }
           return $ret;
        }
@@ -188,8 +179,6 @@
                     </tr></table>";
        }
        return $t_row;
-
-
      }
 
      /**
@@ -201,16 +190,17 @@
       * @param string $category
       */
      public function createTopic($title, $content, $category) {
-          $uuid = $this->gen_uuid();
-          $dt = $this->mytime();
+
           #print ("titel " . $title . "  uuid " . $uuid);
-          return $this->add_topic($uuid,$title,$category,$content,$this->userId);
+          return $this->add_topic($title,$category,$content,$this->userId);
           #return $uuid . " - " . $title . " - " .  $content ." " . $category  . " " . $this->userId;
 
      }
 
-     function add_topic($uuid,$title,$category,$content,$user) {
-       $sql = "INSERT INTO oc_ncdisbo (uuid,title,reply,user_id,content,category) VALUES ('". $uuid ."', '". $title ."',0,'". $user ."','". $content ."','". $category ."')";
+     function add_topic($title,$category,$content,$user) {
+       $uuid = $this->gen_uuid();
+       $dt = $this->mytime();
+       $sql = "INSERT INTO oc_ncdisbo (ts,uuid,title,reply,user_id,content,category) VALUES ('". $dt ."','". $uuid ."', '". $title ."',0,'". $user ."','". $content ."','". $category ."')";
        $stmt = $this->db->prepare($sql);
        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
        $stmt->execute();

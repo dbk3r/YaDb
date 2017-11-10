@@ -41,7 +41,7 @@
                 </tr>
 
                 <tr>
-                  <td colspan="5"><div class="db-topics-content"></div></td>
+                  <td colspan="5"><div class="db-topic-div"></div></td>
                 </tr>
                 <tr>
                   <td class="db-footer" colspan="6">powered by Denis Becker 2017</td>
