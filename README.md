@@ -3,7 +3,7 @@
 Yust another Discusion Board (Nextcloud-Plugin)
 
 
-still in progress.
+still in progress (not really useable) ....
 
 
 ToDo:
@@ -11,13 +11,8 @@ ToDo:
 - Admin Panel
  -> Form to manage categories
 
-- dynamic content loading
-
-- New Topic Form
- -> New Topic Backend
-
 - Reply Topic Form
  -> Reply Topic Backend
 
  - Reply Topic Form
-  -> edit Topic Backend
+  -> edit/save Topic Backend
