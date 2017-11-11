@@ -61,7 +61,7 @@ table:hover {
 	border:2px solid #DDD;
 	text-align:left;
 	overflow: auto;
-	z-index:	999999999;
+	z-index:	9;
 }
 
 .db-new-topic-input {
@@ -243,9 +243,7 @@ table:hover {
 	margin: 10px;
 }
 
-.db-topic-div:hover {
-	border-left: 2px solid #ccc;
-}
+
 .db-topic-div-active {
 	border-left: 2px solid #ccc;
 }

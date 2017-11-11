@@ -16,3 +16,6 @@ ToDo:
 
  - Reply Topic Form
   -> edit/save Topic Backend
+
+- searchBar
+  -> change dynloader

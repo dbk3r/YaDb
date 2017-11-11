@@ -87,7 +87,7 @@ $(document).ready(function () {
             $(".db-new-topic-bg").fadeOut();
             alert(response);
             $(".db-topic-div").not(':first').remove();
-            getTopics("2");
+            getTopics(1);
 
         });
 
