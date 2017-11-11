@@ -108,6 +108,11 @@ table:hover {
 	width: 22px;
 	padding:2px;
 }
+.img-round {
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+}
 
 .btn-pin {
 	background-image: url(../img/pin-16.png);

@@ -8,6 +8,8 @@
   use OCP\AppFramework\Http\DataResponse;
   use OCP\AppFramework\Controller;
   use OCP\IDbConnection;
+  use OCP\IUserManager;
+
 
 
 
@@ -16,12 +18,15 @@
 
     protected $userId;
     private $db;
+    public $userManager;
 
 
-     public function __construct($AppName, IRequest $request, IDbConnection $db, $UserId ){
+     public function __construct($AppName, IRequest $request, IDbConnection $db, $UserId, IUserManager $user){
          parent::__construct($AppName, $request);
          $this->userId = $UserId;
          $this->db = $db;
+         $this->userManager = $user;
+
 
      }
 
@@ -96,7 +101,8 @@
       function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts) {
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
-                <td class="db-topics-row-td">'. $title . '<br><p style="cursor:pointer;font-size: 0.7em">'. $author .'<br>'. $ts .'</p></td>
+                <td class="db-topics-row-td"><h2>'. $title . '</h2><br><p style="cursor:pointer;font-size: 0.7em">
+                <img class="img-round" src="data:image/png;base64,'. $this->userManager->get($author)->getAvatarImage(32) .'"><br>'. $author .'<br>'. $ts .'</p></td>
                 <td class="db-topics-row-td" style="width:250px">'. $category .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
@@ -180,7 +186,10 @@
        foreach($data as $tdata) {
          if ($tdata["reply"] == 1) { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
-                    <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
+                    <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>
+                    <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
+                    <p style='font-size: 0.7em'>" . $tdata['user_id'] ."</p><br>
+                    <p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
                     <button class='btn-edit-topic btn' id='". $tdata["id"] ."'></button>
