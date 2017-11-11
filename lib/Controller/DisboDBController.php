@@ -94,14 +94,15 @@
       }
 
       function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts) {
-        $row = '<div class="db-topic-div"><table class="db-topics-table">
+        $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
                 <td class="db-topics-row-td">'. $title . '<br><p style="cursor:pointer;font-size: 0.7em">'. $author .'<br>'. $ts .'</p></td>
                 <td class="db-topics-row-td" style="width:250px">'. $category .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
-                </tr><tr><td colspan="5" class="db-topics-content-td">
+                </tr><tr><td colspan="5" style="text-align:right;"><button id="reply-'. $uuid .'" class="btn-reply">REPLY</button></td></tr>
+                <tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
                 </td></tr></table></div>';
         return $row;
@@ -178,7 +179,10 @@
          $t_row .= "<table width='100%' border='1'><tr class='db-topics-content-tr'>
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
-                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'><a class='btn-edit-topic' id='". $tdata["id"] ."'> edit</a> | <a  class='btn-del-topic' id='". $tdata["id"] ."'>delete</a> </td>
+                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
+                    <button class='btn-edit-topic' id='". $tdata["id"] ."'>edit</button>
+                    <button class='btn-del-topic' id='". $tdata["id"] ."'>delete</button>
+                    </td>
                     </tr></table>";
        }
        return $t_row;

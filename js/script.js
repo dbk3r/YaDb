@@ -123,7 +123,9 @@ $(document).ready(function () {
       var current_uuid = $(this).attr('id');
       if($("#db-topic-content-" + $(this).attr('id')).css('display') == 'none'){
         $('[id^="db-topic-content-"]').hide();
+        $('[id^="db-topic-div-"]').removeClass('db-topic-div-active');
         $("#db-topic-content-" + $(this).attr('id')).show();
+        $("#db-topic-div-"+current_uuid).addClass('db-topic-div-active');
         var showtopic = OC.generateUrl('/apps/yadisbo/showtopic/'+ $(this).attr('id'));
         $.get(showtopic).done(function(content){
           $("#db-topic-content-" + current_uuid).html(content);

@@ -61,6 +61,7 @@ table:hover {
 	border:2px solid #DDD;
 	text-align:left;
 	overflow: auto;
+	z-index:	999999999;
 }
 
 .db-new-topic-input {
@@ -115,6 +116,12 @@ table:hover {
 	margin:10px;
 	color: #ccc;
 }
+.btn-reply {
+	width: 80px;
+	color: #ccc;
+	font-size: 0.6em;
+}
+
 .btn-new-save:hover {
 	color: #444
 }
@@ -157,7 +164,7 @@ table:hover {
 	color: #ccc;
 }
 .db-topics-row:hover {
-	background-color: #eee;
+	background-color: #fff;
 	color: #333;
 	border-bottom: 4px solid #ccc;
 	cursor: pointer;
@@ -170,7 +177,7 @@ table:hover {
 
 .db-topics-row-td:hover {
 	padding: 6px;
-	background-color: #eee;
+	background-color: #fff;
 	color: #333;
 	cursor: pointer;
 }
@@ -186,18 +193,16 @@ table:hover {
 
 .db-topic-content {
 	width: auto;
-	margin: 20px;
+	margin-left: 20px;
+	padding: 10px;
 	height:auto;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
-	background-color: #eee;
+	background-color: #fff;
 	color: #333;
 }
 .db-topic-content:hover {
-	width: auto;
-	margin: 20px;
-	height:auto;
-	background-color: #eee;
+	background-color: #fff;
 	color: #333;
 }
 
@@ -239,6 +244,8 @@ table:hover {
 }
 
 .db-topic-div:hover {
-	border-top: 1px solid red;
-	border-bottom: 1px solid red;
+	border-left: 2px solid #ccc;
+}
+.db-topic-div-active {
+	border-left: 2px solid #ccc;
 }
