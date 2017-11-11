@@ -6,17 +6,17 @@ function isEmpty(str) {
 function getTopics(s) {
   var baseUrl = OC.generateUrl('/apps/yadisbo/showall/'+s);
   $.get(baseUrl).done(function(content){
-    $(".db-topic-div").after(content).fadeIn();
+    $(".db-topic-div").last().after(content).fadeIn();
   });
 }
 
 $(document).ready(function () {
 
-  var track_page = 2;
+  var track_page = 1;
   var loading = false;
 
   $("#app-content").scroll(function(){
-  		if (jQuery("#app-content").scrollTop() + jQuery("#app-content").height() >= jQuery(".yadb-content").height() ){
+  		if (jQuery("#app-content").scrollTop() + jQuery("#app-content").height() >= jQuery(".yadb-content").height()){
   			track_page++;
   			getTopics(track_page);
   		}
