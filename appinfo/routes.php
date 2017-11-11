@@ -8,7 +8,7 @@ return [
      ['name' => 'disboDB#TopicFormHeader', 'url' => '/topicformheader/{id}', 'verb' => 'GET'],
      ['name' => 'disboDB#TopicContent', 'url' => '/topiccontent/{id}', 'verb' => 'GET'],
      ['name' => 'disboDB#createTopic', 'url' => '/newtopic', 'verb' => 'POST'],
-     ['name' => 'disboDB#update', 'url' => '/disboDB/{id}', 'verb' => 'PUT'],
+     ['name' => 'disboDB#saveTopic', 'url' => '/savetopic', 'verb' => 'POST'],
      ['name' => 'disboDB#deleteTopic', 'url' => '/deletetopic/{id}', 'verb' => 'GET']
     ]
 ];

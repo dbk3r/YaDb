@@ -66,8 +66,19 @@ $(document).ready(function () {
 /// Topic Inhalt speichern
     $(".btn_newreplysave").click(function(){
       if ($(this).attr('action') == "save") {
+        var baseurl = OC.generateUrl('/apps/yadisbo/savetopic');
+        var formdata = {
+                        content: tinymce.activeEditor.getContent(),
+                        id: $("#nrs-id").val(),
+                      };
+        $.post(baseurl, formdata).done(function(response) {
+            $("#db-topics-content-td-" + $("#nrs-id").val()).html(tinymce.activeEditor.getContent());
+            tinymce.activeEditor.setContent("");
+            $(".db-new-topic").slideUp();
+            $(".db-new-topic-bg").fadeOut();
+            ///alert(response);
+        });
 
-        alert($("#nrs-id").val());
       }
 
 
@@ -128,7 +139,7 @@ $(document).ready(function () {
                   $("#db-topic-div-"+current_uuid).remove();
                 });
               }
-              
+
             });
           }
         });

@@ -179,7 +179,7 @@
          if ($tdata["reply"] == 1) { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
-                    <td class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
+                    <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
                     <button class='btn-edit-topic' id='". $tdata["id"] ."'>edit</button>
                     <button class='btn-del-topic' id='". $delid ."'>delete</button>
@@ -219,14 +219,16 @@
       * @NoCSRFRequired
       * @NoAdminRequired
       *
-      * @param string $title
       * @param string $content
-      * @param string $category
       * @param int $id
       */
-     public function update($id, $title, $content, $category) {
-        $dt = mytime();
-
+     public function saveTopic($id, $content) {
+        $dt = $this->mytime();
+        $sql = "update oc_ncdisbo set content='". $content ."',ts='". $dt ."' WHERE id='". $id ."'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $sql;
      }
 
      /**
