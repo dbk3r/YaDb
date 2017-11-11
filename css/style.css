@@ -9,7 +9,11 @@ table:hover {
 	background-color: #fff;
 }
 
-
+.db-notification {
+	position: fixed;
+	left: 0px;
+	top: 100px;
+}
 .db-navigation-tr {
 
 }
@@ -232,4 +236,9 @@ table:hover {
 	text-align: center;
 	width: auto;
 	margin: 10px;
+}
+
+.db-topic-div:hover {
+	border-top: 1px solid red;
+	border-bottom: 1px solid red;
 }

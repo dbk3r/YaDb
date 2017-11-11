@@ -1,4 +1,8 @@
 
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
 function getTopics(s) {
   var baseUrl = OC.generateUrl('/apps/yadisbo/showall/'+s);
   $.get(baseUrl).done(function(content){
@@ -7,6 +11,16 @@ function getTopics(s) {
 }
 
 $(document).ready(function () {
+
+  var track_page = 2;
+  var loading = false;
+
+  $("#app-content").scroll(function(){
+  		if (jQuery("#app-content").scrollTop() + jQuery("#app-content").height() >= jQuery(".yadb-content").height() ){
+  			track_page++;
+  			getTopics(track_page);
+  		}
+  });
 
   tinymce.init({
     selector: '#db-new-topic-editor',
@@ -26,7 +40,11 @@ $(document).ready(function () {
   });
 
 
-  getTopics("2");
+  getTopics(1);
+
+
+
+
 
     $("#btn-new-topic").click(function() {
       var newtopic = OC.generateUrl('/apps/yadisbo/topicformheader/new');
@@ -55,7 +73,7 @@ $(document).ready(function () {
         alert($("#nrs-id").val());
       }
 
-
+/// Tneuen Topic anlegen
       if ($(this).attr('action') == "new") {
         var baseurl = OC.generateUrl('/apps/yadisbo/newtopic');
         var formdata = {

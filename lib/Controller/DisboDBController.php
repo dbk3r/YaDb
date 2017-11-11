@@ -37,10 +37,13 @@
      }
 
 
-     function get_dbRows($id) {
-       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply="0" order by ts desc limit 10';
+     function get_dbRows($p) {
+       $items_per_page = 10;
+       $page_number = filter_var($p, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_STRIP_HIGH);
+       $position = (($page_number-1) * $items_per_page);
+       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply=0 order by ts desc LIMIT ' . $position . ',' . $items_per_page;
        $stmt = $this->db->prepare($sql);
-       $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+       #$stmt->bindParam(1, $id, \PDO::PARAM_INT);
        $stmt->execute();
        $db_rows = $stmt->fetchall();
        $stmt->closeCursor();
