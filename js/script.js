@@ -43,9 +43,6 @@ $(document).ready(function () {
   getTopics(1);
 
 
-
-
-
     $("#btn-new-topic").click(function() {
       var newtopic = OC.generateUrl('/apps/yadisbo/topicformheader/new');
       $.get(newtopic).done(function(content){
@@ -73,6 +70,7 @@ $(document).ready(function () {
         alert($("#nrs-id").val());
       }
 
+
 /// Tneuen Topic anlegen
       if ($(this).attr('action') == "new") {
         var baseurl = OC.generateUrl('/apps/yadisbo/newtopic');
@@ -88,17 +86,15 @@ $(document).ready(function () {
             alert(response);
             $(".db-topic-div").not(':first').remove();
             getTopics(1);
-
         });
-
       }
 
-
+      /// auf Topic antworten
       if ($(this).attr('action') == "reply") {
         alert($("#nrs-id").val());
       }
-
     });
+
 
 /// Topic Inhalt bearbeiten
     $(".btn-edit-topic").live('click', function(e) {
@@ -116,6 +112,26 @@ $(document).ready(function () {
       $(".db-new-topic-bg").fadeIn();
       $(".db-new-topic").slideDown();
     });
+
+
+    /// Topic löschen
+        $(".btn-del-topic").live('click', function(e) {
+          var current_uuid = $(this).attr('id')
+          if (confirm('do you realy want to delete this topic?')) {
+            var del = OC.generateUrl('/apps/yadisbo/deletetopic/'+current_uuid);
+            $.get(del).done(function(delres){
+              $("#topic-content-"+current_uuid).slideUp(function() {
+                $("#topic-content-"+current_uuid).remove();
+              });
+              if(!$.isNumeric(current_uuid)) {
+                $("#db-topic-div-"+current_uuid).slideUp(function() {
+                  $("#db-topic-div-"+current_uuid).remove();
+                });
+              }
+              
+            });
+          }
+        });
 
 
 /// Topic Inhalt anzeigen

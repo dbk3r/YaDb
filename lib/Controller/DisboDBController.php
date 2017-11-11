@@ -176,14 +176,15 @@
        $data = $this->get_topic_content($uuid);
        $t_row = "";
        foreach($data as $tdata) {
-         $t_row .= "<table width='100%' border='1'><tr class='db-topics-content-tr'>
+         if ($tdata["reply"] == 1) { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
+         $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
                     <button class='btn-edit-topic' id='". $tdata["id"] ."'>edit</button>
-                    <button class='btn-del-topic' id='". $tdata["id"] ."'>delete</button>
+                    <button class='btn-del-topic' id='". $delid ."'>delete</button>
                     </td>
-                    </tr></table>";
+                    </tr></table></div>";
        }
        return $t_row;
      }
@@ -231,10 +232,19 @@
      /**
       * @NoCSRFRequired
       * @NoAdminRequired
-      * @param int $id
+      * @param string $id
       */
-     public function destroy($id) {
-         // empty for now
+     public function deleteTopic($id) {
+       if (preg_match('/-/',$id)) {
+         $sql = "DELETE from  oc_ncdisbo WHERE uuid='". $id ."'";
+       }
+       else {
+         $sql = "DELETE from  oc_ncdisbo WHERE id='". $id ."'";
+       }
+       $stmt = $this->db->prepare($sql);
+       $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+       $stmt->execute();
+       return $sql;
      }
 
  }

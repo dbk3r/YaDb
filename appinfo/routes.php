@@ -9,6 +9,6 @@ return [
      ['name' => 'disboDB#TopicContent', 'url' => '/topiccontent/{id}', 'verb' => 'GET'],
      ['name' => 'disboDB#createTopic', 'url' => '/newtopic', 'verb' => 'POST'],
      ['name' => 'disboDB#update', 'url' => '/disboDB/{id}', 'verb' => 'PUT'],
-     ['name' => 'disboDB#destroy', 'url' => '/disboDB/{id}', 'verb' => 'DELETE']
+     ['name' => 'disboDB#deleteTopic', 'url' => '/deletetopic/{id}', 'verb' => 'GET']
     ]
 ];
