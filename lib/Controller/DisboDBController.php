@@ -101,7 +101,9 @@
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
-                </tr><tr><td colspan="5" style="text-align:right;"><button id="reply-'. $uuid .'" class="btn-reply">REPLY</button></td></tr>
+                </tr><tr><td colspan="5" style="text-align:right;">
+                <button uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin"></button>
+                <button id="reply-'. $uuid .'" class="btn-reply">COMMENT</button></td></tr>
                 <tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
                 </td></tr></table></div>';
@@ -181,8 +183,8 @@
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>". $tdata['user_id'] ."<br><p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
-                    <button class='btn-edit-topic' id='". $tdata["id"] ."'>edit</button>
-                    <button class='btn-del-topic' id='". $delid ."'>delete</button>
+                    <button class='btn-edit-topic btn' id='". $tdata["id"] ."'></button>
+                    <button class='btn-del-topic btn' id='". $delid ."'></button>
                     </td>
                     </tr></table></div>";
        }

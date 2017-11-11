@@ -93,8 +93,7 @@ $(document).ready(function () {
         $.post(baseurl, formdata).done(function(response) {
             tinymce.activeEditor.setContent("");
             $(".db-new-topic").slideUp();
-            $(".db-new-topic-bg").fadeOut();
-            alert(response);
+            $(".db-new-topic-bg").fadeOut();            
             $(".db-topic-div").not(':first').remove();
             getTopics(1);
         });
