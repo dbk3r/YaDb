@@ -10,6 +10,3 @@ ToDo:
 
 - Admin Panel
  -> Form to manage categories
-
-- Reply Topic Form
- -> Reply Topic Backend
