@@ -157,11 +157,12 @@ table:hover {
 	color: #ccc;
 }
 .btn-reply {
+	background-image: url(../img/reply-16.png);
+	background-repeat: no-repeat;
+	background-position: center;
 	height: 16px;
-	width: 80px;
-	color: #999;
-	font-size: 0.6em;
-	padding: 1px;
+	width: 22px;
+	padding:1px;
 }
 
 .btn-new-save:hover {

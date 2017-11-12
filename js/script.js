@@ -3,10 +3,15 @@ function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
-function getTopics(s) {
-  var baseUrl = OC.generateUrl('/apps/yadisbo/showall/'+s);
-  $.get(baseUrl).done(function(content){
-    $(".db-topic-div").last().after(content).fadeIn();
+function getTopics(p,search) {
+
+  var baseurl = OC.generateUrl('/apps/yadisbo/showall');
+  var formdata = {
+                  id: p,
+                  search: search,
+                };
+  $.post(baseurl, formdata).done(function(content) {
+      $(".db-topic-div").last().after(content).fadeIn();
   });
 }
 
@@ -52,8 +57,16 @@ $(document).ready(function () {
   });
 
 
-  getTopics(1);
+  getTopics(1,"");
 
+
+    $("#db-search").keyup(function(e) {
+      if(e.keyCode == 13)
+      {
+        $(".db-topic-div").not(':first').remove();
+        getTopics(1,$("#db-search").val());
+      }
+    });
 
     $(".btn-pin").live('click', function(e) {
       var current_uuid = $(this).attr('uuid');
@@ -120,7 +133,7 @@ $(document).ready(function () {
             $(".db-new-topic").slideUp();
             $(".db-new-topic-bg").fadeOut();
             $(".db-topic-div").not(':first').remove();
-            getTopics(1);
+            getTopics(1,"");
         });
       }
 
