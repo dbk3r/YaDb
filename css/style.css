@@ -118,9 +118,17 @@ table:hover {
 	background-image: url(../img/pin-16.png);
 	background-repeat: no-repeat;
 	background-position: center;
-	height: 18px;
+	height: 16px;
 	width: 22px;
-	padding:2px;
+	padding:1px;
+}
+.btn-pinned {
+	background-image: url(../img/pinned-16.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 16px;
+	width: 22px;
+	padding:1px;
 }
 
 .btn-edit-topic {
@@ -149,9 +157,11 @@ table:hover {
 	color: #ccc;
 }
 .btn-reply {
+	height: 16px;
 	width: 80px;
 	color: #999;
 	font-size: 0.6em;
+	padding: 1px;
 }
 
 .btn-new-save:hover {

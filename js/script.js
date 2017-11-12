@@ -10,6 +10,18 @@ function getTopics(s) {
   });
 }
 
+function pinTopic(uuid,pin) {
+  var baseurl = OC.generateUrl('/apps/yadisbo/pintopic');
+  var formdata = {
+                  pin: pin,
+                  uuid: uuid,
+                };
+  $.post(baseurl, formdata).done(function(response) {
+
+      ///alert(response);
+  });
+}
+
 $(document).ready(function () {
 
   var track_page = 1;
@@ -42,6 +54,19 @@ $(document).ready(function () {
 
   getTopics(1);
 
+
+    $(".btn-pin").live('click', function(e) {
+      var current_uuid = $(this).attr('uuid');
+      /// unpin Topic
+      if($("#pin-"+current_uuid).hasClass("btn-pinned")) {
+        $("#pin-"+current_uuid).removeClass("btn-pinned");
+        pinTopic(current_uuid,0);
+      } else {
+        /// pin Topic
+        $("#pin-"+current_uuid).addClass("btn-pinned");
+        pinTopic(current_uuid,1)
+      }
+    });
 
     $("#btn-new-topic").click(function() {
       var newtopic = OC.generateUrl('/apps/yadisbo/topicformheader/new');
@@ -93,7 +118,7 @@ $(document).ready(function () {
         $.post(baseurl, formdata).done(function(response) {
             tinymce.activeEditor.setContent("");
             $(".db-new-topic").slideUp();
-            $(".db-new-topic-bg").fadeOut();            
+            $(".db-new-topic-bg").fadeOut();
             $(".db-topic-div").not(':first').remove();
             getTopics(1);
         });

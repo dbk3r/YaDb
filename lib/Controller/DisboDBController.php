@@ -46,7 +46,7 @@
        $items_per_page = 10;
        $page_number = filter_var($p, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_STRIP_HIGH);
        $position = (($page_number-1) * $items_per_page);
-       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply=0 order by ts desc LIMIT ' . $position . ',' . $items_per_page;
+       $sql = 'SELECT * FROM *PREFIX*ncdisbo where reply=0 order by pinned DESC , ts desc LIMIT ' . $position . ',' . $items_per_page;
        $stmt = $this->db->prepare($sql);
        #$stmt->bindParam(1, $id, \PDO::PARAM_INT);
        $stmt->execute();
@@ -98,7 +98,8 @@
         return $ret;
       }
 
-      function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts) {
+      function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts, $pin) {
+        if ($pin == 1) { $pinned = "btn-pinned"; } else { $pinned = ""; }
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
                 <td class="db-topics-row-td"><h2>'. $title . '</h2><br><p style="cursor:pointer;font-size: 0.7em">
@@ -108,7 +109,7 @@
                 <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
                 </tr><tr><td colspan="5" style="text-align:right;">
-                <button uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin"></button>
+                <button uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin '. $pinned. '"></button>
                 <button id="reply-'. $uuid .'" class="btn-reply">COMMENT</button></td></tr>
                 <tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
@@ -155,7 +156,7 @@
           $data = $this->get_dbRows($id);
           $ret = "";
           foreach($data as $row) {
-            $ret .= $this->create_topics_row($row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"], $row["ts"]);
+            $ret .= $this->create_topics_row($row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"], $row["ts"], $row["pinned"]);
           }
           return $ret;
        }
@@ -241,6 +242,24 @@
         $stmt->execute();
         return $sql;
      }
+
+
+     /**
+      * @NoCSRFRequired
+      * @NoAdminRequired
+      *
+      * @param int $pin
+      * @param string $uuid
+      */
+     public function pinTopic($uuid, $pin) {
+        $dt = $this->mytime();
+        $sql = "update oc_ncdisbo set pinned='". $pin ."' WHERE uuid='". $uuid ."'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $sql;
+     }
+
 
      /**
       * @NoCSRFRequired
