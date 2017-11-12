@@ -234,6 +234,11 @@ table:hover {
 	background-color: #999;
 }
 
+.trenner {
+	border-top: 1px dotted #ccc;
+	padding: 10px;
+}
+
 .db-topic-content {
 	width: auto;
 	margin-left: 20px;

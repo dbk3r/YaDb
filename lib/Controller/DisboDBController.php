@@ -99,7 +99,7 @@
         return $ret;
       }
 
-      function create_topics_row($title, $category, $author, $replies, $views, $activity, $uuid, $ts, $pin) {
+      function create_topics_row($id, $title, $category, $author, $replies, $views, $activity, $uuid, $ts, $pin) {
         if ($pin == 1) { $pinned = "btn-pinned"; } else { $pinned = ""; }
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
@@ -111,7 +111,7 @@
                 <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
                 </tr><tr><td colspan="5" style="text-align:right;">
                 <button title="pin this Topic to Top" uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin '. $pinned. '"></button>
-                <button title="comment this Topic" id="reply-'. $uuid .'" class="btn-reply"></button></td></tr>
+                <button title="comment this Topic" dbid="'. $id .'" id="'. $uuid .'" class="btn-reply"></button></td></tr>
                 <tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
                 </td></tr></table></div>';
@@ -158,12 +158,10 @@
           $data = $this->get_dbRows($id,$search);
           $ret = "";
           foreach($data as $row) {
-            $ret .= $this->create_topics_row($row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"], $row["ts"], $row["pinned"]);
+            $ret .= $this->create_topics_row($row["id"], $row["title"], $row["category"], $row["user_id"], $row["views"], $replies, $last_action, $row["uuid"], $row["ts"], $row["pinned"]);
           }
           return $ret;
        }
-
-
 
 
 
@@ -187,7 +185,7 @@
        $data = $this->get_topic_content($uuid);
        $t_row = "";
        foreach($data as $tdata) {
-         if ($tdata["reply"] == 1) { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
+         if ($tdata["reply"] == '1') { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>
                     <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
@@ -198,7 +196,7 @@
                     <button class='btn-edit-topic btn' id='". $tdata["id"] ."'></button>
                     <button class='btn-del-topic btn' id='". $delid ."'></button>
                     </td>
-                    </tr></table></div>";
+                    </tr></table></div><div id='trenner-". $delid ."' class='trenner'></div>";
        }
        return $t_row;
      }
@@ -239,6 +237,23 @@
      public function saveTopic($id, $content) {
         $dt = $this->mytime();
         $sql = "update oc_ncdisbo set content='". $content ."',ts='". $dt ."' WHERE id='". $id ."'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $sql;
+     }
+
+
+     /**
+      * @NoCSRFRequired
+      * @NoAdminRequired
+      *
+      * @param string $content
+      * @param string $uuid
+      */
+     public function replyTopic($uuid, $content) {
+        $dt = $this->mytime();
+        $sql = "insert into oc_ncdisbo (uuid,content,reply,ts,user_id) values ('". $uuid ."','". $content ."', '1', '". $dt ."','". $this->userId ."')";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(1, $id, \PDO::PARAM_INT);
         $stmt->execute();

@@ -10,6 +10,7 @@ return [
      ['name' => 'disboDB#createTopic', 'url' => '/newtopic', 'verb' => 'POST'],
      ['name' => 'disboDB#saveTopic', 'url' => '/savetopic', 'verb' => 'POST'],
      ['name' => 'disboDB#pinTopic', 'url' => '/pintopic', 'verb' => 'POST'],
+     ['name' => 'disboDB#replyTopic', 'url' => '/replytopic', 'verb' => 'POST'],
      ['name' => 'disboDB#deleteTopic', 'url' => '/deletetopic/{id}', 'verb' => 'GET']
     ]
 ];
