@@ -9,6 +9,9 @@
   use OCP\AppFramework\Controller;
   use OCP\IDbConnection;
   use OCP\IUserManager;
+  use OCP\IGroupManager;
+  use OCP\IConfig;
+  use OCP\IUserSession;
 
 
 
@@ -17,15 +20,22 @@
 
 
     protected $userId;
+    protected $config;
+    protected $userSession;
     private $db;
     public $userManager;
+    public $groupManager;
 
 
-     public function __construct($AppName, IRequest $request, IDbConnection $db, $UserId, IUserManager $user){
+     public function __construct($AppName, IConfig $config, IRequest $request, IDbConnection $db, $UserId, IUserManager $user, IGroupManager $group, IUserSession $userSession){
          parent::__construct($AppName, $request);
          $this->userId = $UserId;
          $this->db = $db;
          $this->userManager = $user;
+         $this->groupManager = $group;
+         $this->config = $config;
+         $this->userSession = $userSession;
+
 
 
      }
@@ -89,6 +99,16 @@
     );
       }
 
+
+
+      function isAdmin() {
+        $user = $this->userSession->getUser();
+        if ($this->groupManager->isInGroup($user->getUID(), 'admin')) {
+          return true;
+        }
+      }
+
+
       function create_categories_dropdown() {
         $data = $this->get_categories();
         $ret = "<select id='dbCat' name='Category'>";
@@ -99,18 +119,26 @@
         return $ret;
       }
 
+
       function create_topics_row($id, $title, $category, $author, $replies, $views, $activity, $uuid, $ts, $pin) {
         if ($pin == 1) { $pinned = "btn-pinned"; } else { $pinned = ""; }
+        if ($this->isAdmin()) {
+          $ad = "admin";
+          $pin_button = '<button title="pin this Topic to Top" uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin '. $pinned. '"></button>';
+        } else {
+          $ad = "member";
+          $pin_button = "";
+        }
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
                 <td class="db-topics-row-td"><h2>'. $title . '</h2><br><p style="cursor:pointer;font-size: 0.7em">
                 <img class="img-round" src="data:image/png;base64,'. $this->userManager->get($author)->getAvatarImage(32) .'"><br>'. $author .'<br>'. $ts .'</p></td>
-                <td class="db-topics-row-td" style="width:250px">'. $category .'</td>
-                <td class="db-topics-row-td" style="width:100px; text-align: center">'. $replies .'</td>
-                <td class="db-topics-row-td" style="width:100px; text-align: center">'. $views .'</td>
-                <td class="db-topics-row-td" style="width:150px; text-align: center">'. $activity .'</td>
+                <td class="db-topics-row-td" style="width:250px; vertical-align:top;">'. $category .'</td>
+                <td class="db-topics-row-td" style="width:100px; text-align: center; vertical-align:top;">'. $replies .'</td>
+                <td class="db-topics-row-td" style="width:100px; text-align: center; vertical-align:top;">'. $views .'</td>
+                <td class="db-topics-row-td" style="width:150px; text-align: center; vertical-align:top;">'. $activity .'</td>
                 </tr><tr><td colspan="5" style="text-align:right;">
-                <button title="pin this Topic to Top" uuid="'. $uuid. '" id="pin-'. $uuid .'" class="btn-pin '. $pinned. '"></button>
+                '. $pin_button .'
                 <button title="comment this Topic" dbid="'. $id .'" id="'. $uuid .'" class="btn-reply"></button></td></tr>
                 <tr><td colspan="5" class="db-topics-content-td">
                 <div class="db-topic-content" id="db-topic-content-'. $uuid .'" style="display:none"> </div>
@@ -142,6 +170,11 @@
         return $r;
       }
 
+
+      /**
+       * @NoCSRFRequired
+       * @NoAdminRequired
+      */
       public function TopicContent($id) {
         $db_data = $this->get_dbRow($id);
         return $db_data["content"];
@@ -178,7 +211,7 @@
       * @NoCSRFRequired
       * @NoAdminRequired
       *
-      * @param int $id
+      * @param string $uuid
       */
      public function showTopic($uuid) {
 
@@ -186,6 +219,19 @@
        $t_row = "";
        foreach($data as $tdata) {
          if ($tdata["reply"] == '1') { $delid = $tdata["id"]; } else {$delid = $tdata["uuid"];}
+         if ($this->isAdmin()) {
+           $ad = "admin";
+           $del_button = "<button class='btn-del-topic btn' id='". $delid ."'></button>";
+         } else {
+           $ad = "member";$pin_button = "";
+           $del_button = "";
+         }
+         if($this->userId == $tdata['user_id'] || $this->isAdmin() ) {
+           $edit_button = "<button class='btn-edit-topic btn' id='". $tdata["id"] ."'></button>";
+         }
+         else {
+           $edit_button = "";
+         }
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
                     <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>
                     <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
@@ -193,8 +239,8 @@
                     <p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
                     <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
-                    <button class='btn-edit-topic btn' id='". $tdata["id"] ."'></button>
-                    <button class='btn-del-topic btn' id='". $delid ."'></button>
+                    ". $edit_button ."
+                    ". $del_button ."
                     </td>
                     </tr></table></div><div id='trenner-". $delid ."' class='trenner'></div>";
        }
