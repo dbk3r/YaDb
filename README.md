@@ -10,7 +10,3 @@ ToDo:
 
 - Admin Panel
  -> Form to manage categories
-
-- display view counter
-- display Activity
-- display reply count
