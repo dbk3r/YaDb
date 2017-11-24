@@ -3,8 +3,9 @@
 Yust another Discusion Board (Nextcloud-Plugin)
 
 
-still in progress (not really useable) ....
+have Fun.
 
+Admin-Panel not ready yet
 
 ToDo:
 
