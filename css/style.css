@@ -295,7 +295,27 @@ table:hover {
 	margin: 10px;
 }
 
+.topic-footer{
+	border: solid 1px #334455;
+	padding: 2px;
+	margin-right: 2px;
+	font-size: 0.7em;
+	width: auto;
+	max-width: 150px;
+	float: left;
+
+}
+
+.db-content-div {
+	max-width: 100%;
+	margin:4px;
+}
+
+img{
+	max-width: 90%;
+}
 
 .db-topic-div-active {
 	border-left: 2px solid #ccc;
+	width: 100%;
 }

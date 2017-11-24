@@ -131,13 +131,16 @@
         }
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
-                <td class="db-topics-row-td"><h2>'. $title . '</h2><br><p style="cursor:pointer;font-size: 0.7em">
+                <td colspan="5" class="db-topics-row-td"><h3>'. $title . '</h3><br><p style="cursor:pointer;font-size: 0.7em">
                 <img class="img-round" src="data:image/png;base64,'. $this->userManager->get($author)->getAvatarImage(32) .'"><br>'. $author .'<br>'. $ts .'</p></td>
-                <td class="db-topics-row-td" style="width:250px; vertical-align:top;">'. $category .'</td>
-                <td class="db-topics-row-td" style="width:100px; text-align: center; vertical-align:top;">'. $replies .'</td>
-                <td class="db-topics-row-td" style="width:100px; text-align: center; vertical-align:top;">'. $views .'</td>
-                <td class="db-topics-row-td" style="width:150px; text-align: center; vertical-align:top;">'. $activity .'</td>
-                </tr><tr><td colspan="5" style="text-align:right;">
+                </tr><tr>
+                <td colspan="4">
+                <p class="topic-footer">Category:'. $category .'</p>
+                <p class="topic-footer">views:'. $views .'</p>
+                <p class="topic-footer">replies:'. $replies .'</p>
+                <p class="topic-footer">activity:'. $activity .'</p>
+                </td>
+                <td style="text-align:right;">
                 '. $pin_button .'
                 <button title="comment this Topic" dbid="'. $id .'" id="'. $uuid .'" class="btn-reply"></button></td></tr>
                 <tr><td colspan="5" class="db-topics-content-td">
@@ -233,12 +236,13 @@
            $edit_button = "";
          }
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
-                    <td class='db-topics-content-td' style='vertical-align:top;width:250px;'>
+                    <td class='db-topics-content-td' style='vertical-align:top;width:10%;'>
                     <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
                     <p style='font-size: 0.7em'>" . $tdata['user_id'] ."</p><br>
                     <p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
-                    <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>". $tdata['content'] ."</td>
-                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right; width:150px;'>
+                    <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>
+                    <div class='db-content-div' id='db-topics-content-div-". $tdata["id"] ."''>". $tdata['content'] ."</td></div>
+                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right;'>
                     ". $edit_button ."
                     ". $del_button ."
                     </td>
