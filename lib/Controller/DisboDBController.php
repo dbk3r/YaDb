@@ -86,7 +86,8 @@
       function mytime() {
         date_default_timezone_set("Europe/Berlin");
         $datetime = date('Y-m-d H:i:s');
-        return $datetime;
+        $timestamp = time();
+        return $timestamp;
       }
 
       function gen_uuid() {
@@ -119,6 +120,37 @@
         return $ret;
       }
 
+      function replycount($uuid) {
+        $sql = "SELECT * from *PREFIX*ncdisbo where uuid='".$uuid."' and reply='1'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $cc = $stmt->rowCount();
+        $stmt->closeCursor();
+        return $cc;
+      }
+
+
+      function viewcount($id) {
+        $sql = "SELECT views from *PREFIX*ncdisbo where id='".$id."'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $cc = $stmt->fetch();
+        $stmt->closeCursor();
+        return $cc['views'];
+      }
+
+      function ActivityMath($uuid) {
+        $sql = "SELECT ts from *PREFIX*ncdisbo where uuid='".$uuid."' order by ts desc";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $cc = $stmt->fetch();
+        $stmt->closeCursor();        
+        $curTS = time() + 3600;
+        return $curTS - $cc['ts'];
+      }
 
       function create_topics_row($id, $title, $category, $author, $replies, $views, $activity, $uuid, $ts, $pin) {
         if ($pin == 1) { $pinned = "btn-pinned"; } else { $pinned = ""; }
@@ -129,16 +161,26 @@
           $ad = "member";
           $pin_button = "";
         }
+        $replies = $this->replycount($uuid);
+        $views = $this->viewcount($id);
+        $last_Activity = $this->ActivityMath($uuid);
+        $last_Ahrs = $last_Activity / 3600;
+        $last_Amin = $last_Activity / 60;
+        if ($last_Ahrs > 24 && $last_Ahrs < 168) { $act = ($last_Ahrs / 24) . " days"; }
+        if ($last_Ahrs > 168 && $last_Ahrs< 1176 ) {$act = ($last_Ahrs / 24 / 7) . " weeks";  }
+        if ($last_Ahrs > 1176 ) {$act = round(($last_Ahrs / 24 / 7 / date('t')), 0, PHP_ROUND_HALF_UP ) . " month";  }
+        if ($last_Ahrs < 24) { $act = round($last_Ahrs, 0, PHP_ROUND_HALF_UP) . " hours";}
+        if ($last_Amin < 60) { $act = round($last_Amin, 0, PHP_ROUND_HALF_UP) . " minutes";}
         $row = '<div id="db-topic-div-'. $uuid .'" class="db-topic-div"><table class="db-topics-table">
                 <tr class="db-topics-row" id="'. $uuid .'">
                 <td colspan="5" class="db-topics-row-td"><h3>'. $title . '</h3><br><p style="cursor:pointer;font-size: 0.7em">
-                <img class="img-round" src="data:image/png;base64,'. $this->userManager->get($author)->getAvatarImage(32) .'"><br>'. $author .'<br>'. $ts .'</p></td>
+                <img class="img-round" src="data:image/png;base64,'. $this->userManager->get($author)->getAvatarImage(32) .'"><br>'. $author .'<br>'. date('Y-m-d H:i:s', $ts) .'</p></td>
                 </tr><tr>
                 <td colspan="4">
                 <p class="topic-footer">Category:'. $category .'</p>
                 <p class="topic-footer">views:'. $views .'</p>
                 <p class="topic-footer">replies:'. $replies .'</p>
-                <p class="topic-footer">activity:'. $activity .'</p>
+                <p class="topic-footer">activity:'. $act .'</p>
                 </td>
                 <td style="text-align:right;">
                 '. $pin_button .'
@@ -191,6 +233,7 @@
        * @param string $search
        */
        public function showall($id,$search) {
+         if ($id == "") {$id = 2;}
           $data = $this->get_dbRows($id,$search);
           $ret = "";
           foreach($data as $row) {
@@ -200,6 +243,13 @@
        }
 
 
+       function plusView($id) {
+         $sql = "UPDATE *PREFIX*ncdisbo SET views= views + 1 where id='". $id ."'";
+         $stmt = $this->db->prepare($sql);
+         $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+         $stmt->execute();
+         $stmt->closeCursor();
+       }
 
        function get_topic_content($uuid) {
          $sql = "SELECT * FROM *PREFIX*ncdisbo where uuid='". $uuid ."' order by ts asc";
@@ -208,6 +258,8 @@
          $stmt->execute();
          $t_content = $stmt->fetchall();
          $stmt->closeCursor();
+         $this->plusView($t_content[0]['id']);
+
          return $t_content;
        }
      /**
@@ -239,7 +291,7 @@
                     <td class='db-topics-content-td' style='vertical-align:top;width:10%;'>
                     <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
                     <p style='font-size: 0.7em'>" . $tdata['user_id'] ."</p><br>
-                    <p style='font-size: 0.7em'>". $tdata["ts"]. "</p></td>
+                    <p style='font-size: 0.7em'>". date('Y-m-d H:i:s', $tdata["ts"]) . "</p></td>
                     <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>
                     <div class='db-content-div' id='db-topics-content-div-". $tdata["id"] ."''>". $tdata['content'] ."</td></div>
                     <td class='db-topics-content-td' style='vertical-align:top; text-align:right;'>
@@ -269,6 +321,7 @@
 
      function add_topic($title,$category,$content,$user) {
        $uuid = $this->gen_uuid();
+
        $dt = $this->mytime();
        $sql = "INSERT INTO oc_ncdisbo (ts,uuid,title,reply,user_id,content,category) VALUES ('". $dt ."','". $uuid ."', '". $title ."',0,'". $user ."','". $content ."','". $category ."')";
        $stmt = $this->db->prepare($sql);
