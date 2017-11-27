@@ -44,6 +44,7 @@ class PageController extends Controller {
 
 			$allowedFrameDomains = array(
 				'https://www.youtube.com',
+				'https://youtu.be',
 				'https://soundcloud.com',
 				'https://w.soundcloud.com',
 				'http://berlin-art.work'

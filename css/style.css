@@ -321,18 +321,7 @@ table:hover {
 
 }
 
-iframe {
-	width: 100%;
-	height: calc(width * 9 / 16);
-}
 
-video{
-	width: 90%;
-	height: auto;
-}
-p{
-
-}
 .db-content-div {
 	width: 90%;
 	height: auto;
@@ -340,7 +329,12 @@ p{
 	margin:4px;
 	font-size: 0.9em;
 }
-
+iframe {
+	max-width: 560px;
+	max-height: 315px;
+	width: 90%;
+	height: calc(width  * (16 / 9));
+}
 img{
 	max-width: 90%;
 	height: auto;
