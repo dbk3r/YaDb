@@ -254,8 +254,23 @@ table:hover {
 	color: #333;
 }
 
+.db-topics-content-left {
+	width: 50px;
+
+}
+.db-topics-content-center {
+	width: 70%;
+	overflow-x: hidden;
+	height: auto;
+}
+
+.db-topics-content-right {
+	width: 15%;
+	text-align:right;
+}
+
 .db-topics-content-td {
-	width: auto;
+	vertical-align:top;
 	margin: 20px;
 	height:auto;
 	background-color: #fff;
@@ -263,7 +278,7 @@ table:hover {
 	text-align: left;
 }
 .db-topics-content-td:hover {
-	width: auto;
+
 	margin: 20px;
 	height:auto;
 	background-color: #fff;
@@ -306,14 +321,31 @@ table:hover {
 
 }
 
+iframe {
+	width: 100%;
+	height: calc(width * 9 / 16);
+}
+
+video{
+	width: 90%;
+	height: auto;
+}
+p{
+
+}
 .db-content-div {
-	max-width: 100%;
+	width: 90%;
+	height: auto;
+	max-width: 90%;
 	margin:4px;
+	font-size: 0.9em;
 }
 
 img{
 	max-width: 90%;
+	height: auto;
 }
+
 
 .db-topic-div-active {
 	border-left: 2px solid #ccc;

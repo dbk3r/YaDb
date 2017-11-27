@@ -147,7 +147,7 @@
         $stmt->bindParam(1, $id, \PDO::PARAM_INT);
         $stmt->execute();
         $cc = $stmt->fetch();
-        $stmt->closeCursor();        
+        $stmt->closeCursor();
         $curTS = time() + 3600;
         return $curTS - $cc['ts'];
       }
@@ -166,8 +166,8 @@
         $last_Activity = $this->ActivityMath($uuid);
         $last_Ahrs = $last_Activity / 3600;
         $last_Amin = $last_Activity / 60;
-        if ($last_Ahrs > 24 && $last_Ahrs < 168) { $act = ($last_Ahrs / 24) . " days"; }
-        if ($last_Ahrs > 168 && $last_Ahrs< 1176 ) {$act = ($last_Ahrs / 24 / 7) . " weeks";  }
+        if ($last_Ahrs > 24 && $last_Ahrs < 168) { $act = round(($last_Ahrs / 24), 0, PHP_ROUND_HALF_UP ) . " days"; }
+        if ($last_Ahrs > 168 && $last_Ahrs< 1176 ) {$act = round(($last_Ahrs / 24 / 7), 0, PHP_ROUND_HALF_UP ) . " weeks";  }
         if ($last_Ahrs > 1176 ) {$act = round(($last_Ahrs / 24 / 7 / date('t')), 0, PHP_ROUND_HALF_UP ) . " month";  }
         if ($last_Ahrs < 24) { $act = round($last_Ahrs, 0, PHP_ROUND_HALF_UP) . " hours";}
         if ($last_Amin < 60) { $act = round($last_Amin, 0, PHP_ROUND_HALF_UP) . " minutes";}
@@ -288,13 +288,13 @@
            $edit_button = "";
          }
          $t_row .= "<div id='topic-content-". $delid ."'><table width='100%' border='0'><tr class='db-topics-content-tr'>
-                    <td class='db-topics-content-td' style='vertical-align:top;width:10%;'>
+                    <td class='db-topics-content-td db-topics-content-left'>
                     <img class='img-round' src='data:image/png;base64,". $this->userManager->get($tdata['user_id'])->getAvatarImage(32) ."'><br>
                     <p style='font-size: 0.7em'>" . $tdata['user_id'] ."</p><br>
-                    <p style='font-size: 0.7em'>". date('Y-m-d H:i:s', $tdata["ts"]) . "</p></td>
-                    <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td' style='vertical-align:top'>
-                    <div class='db-content-div' id='db-topics-content-div-". $tdata["id"] ."''>". $tdata['content'] ."</td></div>
-                    <td class='db-topics-content-td' style='vertical-align:top; text-align:right;'>
+                    <p style='font-size: 0.7em'>". date('Y-m-d', $tdata["ts"]) . "<br>". date('H:i:s', $tdata["ts"]) ."</p></td>
+                    <td id='db-topics-content-td-". $tdata["id"] ."' class='db-topics-content-td db-topics-content-center' style='vertical-align:top'>
+                    <div class='db-content-div' id='db-topics-content-div-". $tdata["id"] ." style='text-align:left;'>". $tdata['content'] ."</td></div>
+                    <td class='db-topics-content-td db-topics-content-right' style='text-align:right;'>
                     ". $edit_button ."
                     ". $del_button ."
                     </td>
